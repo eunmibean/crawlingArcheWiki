@@ -1,7 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 
-def getItems(link):
+dict = {}
+
+def getItems(link, name):
     header = {'User-agent' : 'Mozila/2.0'}
     response = requests.get(link, headers=header)
     html = response.text
@@ -16,6 +18,7 @@ def getItems(link):
                 break
     
     if flag == True:
+        recipe = {}
         for ing in ings:  
             for i in ing: 
                 # del 태그는 더이상 필요하지 않으니깐 패스
@@ -29,13 +32,52 @@ def getItems(link):
                 # 아이템에 링크가 있다면 들어가서 최종 아이템인지 확인해야함  
                 if i.name == 'a':
                     link = i.attrs['href']
-                    getItems(link)
+                    checkItems(link, i.text)
                 
-                print(i.text.replace(",",""))
+                food = i.text.replace(",","")
+                if hasNumber(food):
+                    count = food.replace("개","")
+                    recipe[prevFood] = int(count)
 
+                elif food.strip() == "" :
+                    continue
+                else :
+                    prevFood = food
+        return recipe
+    return None
+                
+def hasNumber(inputString):
+    return any(char.isdigit() for char in inputString)
+
+def checkItems(url, name):
+    if dict.get(name) == None:
+        dict[name] = getItems(url, name)
+    
+    #if dict[name] != None :
+       # print(dict[name])
+
+def getFinalRecipe(name, recipe = {}):
+    for key in dict[name].keys():
+        if dict[key] == None: 
+            count = dict[name][key]
+            if recipe.get(key) != None:
+                count = count + recipe.get(key)
+            recipe[key] = count
+        else :
+            recipe = getFinalRecipe(key, recipe)
+    
+    return recipe
+
+
+
+            
+ 
 
 keyword = "%EB%81%88%EC%A0%81%EC%9E%84%20%EC%97%86%EB%8A%94%20%EC%97%B0%EB%A7%88%EC%A0%9C" #끈적임없는 연마제
 #keyword = "거친%20입자의%20연마제" 
 url = f"https://archeage.xlgames.com/wikis/{keyword}"
-getItems(url)
+checkItems(url, keyword)
+finalRecipe = {}
+finalRecipe = getFinalRecipe(keyword, finalRecipe)
+print(finalRecipe)
 
