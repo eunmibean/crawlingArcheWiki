@@ -1,3 +1,6 @@
 # extract all ingredients needed from ArcheWiki 
 
-// TODO : save the data in dic 
+//TO DO
+- [x] save the data in dic 
+- [ ] save the data in db 
+
