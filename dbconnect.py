@@ -4,7 +4,7 @@ class dbConnect:
     def __init__(self):
 
         # DB 생성 (오토 커밋)
-        conn = sqlite3.connect("test.db", isolation_level=None)
+        conn = sqlite3.connect("test.db", isolation_level=None, check_same_thread=False)
 
         # 커서 획득
         self.c = conn.cursor()

@@ -6,15 +6,16 @@ import json
 
 db = dbConnect()
 dict = {}
-# def getItemsId(link,name):
-#     header = {'User-agent' : 'Mozila/2.0'}
-#     response = requests.get(link, headers=header)
-#     html = response.text
-#     soup = BeautifulSoup(html, 'html.parser')
-#     print(soup)
-#     itemId = soup.select('#craft > div > div > div.d_item.layer_item')
-    
-#     print(itemId)
+
+
+def giveFinalRecipe(keyword):
+    url = f"https://archeage.xlgames.com/wikis/{keyword}"
+    # db.createTable()
+    code = checkItem(url,keyword)
+
+    finalRecipe = {}
+    finalRecipe = getFinal(code)
+    return finalRecipe
 
 
 
@@ -74,8 +75,8 @@ def checkItem(url, name):
     code = db.getItemCode(name)
     if code == None:
         db.insertItemName(name)
-        code[0] = db.getItemCode(name)
-        dict[code] = getItems(url, code)
+        code = db.getItemCode(name)
+        dict[code] = getItems(url, code[0])
     #else : 
      #   code = code[0]
     
@@ -126,14 +127,13 @@ def getFinal(code, finalRecipe = {}):
 #keyword = "끈적임%20없는%20연마제"
 #keyword = "거친%20입자의%20연마제" 
 #keyword = "로즈마리"
-keyword = "불투명한%20연마제"
-url = f"https://archeage.xlgames.com/wikis/{keyword}"
+# keyword = "불투명한%20연마제"
+# url = f"https://archeage.xlgames.com/wikis/{keyword}"
 # db.createTable()
 
-code = checkItem(url,keyword)
+# code = checkItem(url,keyword)
 
-finalRecipe = {}
-#finalRecipe = getFinalRecipe(code, finalRecipe)
-finalRecipe = getFinal(code)
-print(finalRecipe)
+# finalRecipe = {}
+# finalRecipe = getFinal(code)
+# print(finalRecipe)
 
