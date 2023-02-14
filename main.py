@@ -1,19 +1,22 @@
-from flask import Flask
+from flask import Flask, jsonify
 from getRecipe import giveFinalRecipe
+from flask_cors import CORS
+
 
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
+CORS(app)
 
 @app.route('/')
 def hello_world():
     return 'hello world!'
 
-@app.route('/search/<keyword>')
+@app.route('/search/<keyword>', methods=['GET'])
 def searchRecipe(keyword):
     final = giveFinalRecipe(keyword)
-    return final
-    #print(searchRecipe(keyword))
+    print(final)
+    return jsonify(final)
 
     
 
