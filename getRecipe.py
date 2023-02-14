@@ -14,7 +14,7 @@ def giveFinalRecipe(keyword):
     code = checkItem(url,keyword)
 
     finalRecipe = {}
-    finalRecipe = getFinal(code)
+    finalRecipe = getFinal(code, finalRecipe)
     return finalRecipe
 
 

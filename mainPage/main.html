@@ -19,6 +19,8 @@
                     <th>ingredient</th>
                     <th>count</th>
                 </tr>
+                <tbody id="dynamicTbody">
+                </tbody>
             </table>
         </div> 
 
@@ -42,16 +44,22 @@
                     'Access-Control-Allow-Origin': '*',
                 },
                 success: (data) => {
+                    $("#dynamicTbody").empty();
                     console.log(data)
                     keys = Object.keys(data)
-
+                    
+                    var html = '';
                     for (var i=0; i<keys.length; i++){
                         console.log(data[keys[i]])
                         var row = 
                             $('<tr><td>' + keys[i]+ '</td><td>' + data[keys[i]] + '</td></tr>');
-                        $('#result_table').append(row);
+                        $('#dynamicTbody').append(row);
+                        
 
+
+                    
                     }
+                    
                 },
 
                 error: function(XMLHttpRequest, textStatus, errorThrown) { 
