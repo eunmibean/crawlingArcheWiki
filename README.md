@@ -1,6 +1,20 @@
-# extract all ingredients needed from ArcheWiki 
+# 아키에이지 레시피 북
 
-//TO DO
-- [x] save the data in dic 
-- [ ] save the data in db 
+아키에이지 레시피 북은 아이템을 제작하기 위해 필요한 가장 최하 단위의 아이템의 총 갯수를 알려주는 웹페이지입니다. 
+
+## 기능 : 
+- 아이템 검색
+- 재료의 갯수 결과 리턴
+
+## 기술 스펙 : 
+Python 3, Flask, MySQL, Docker, GCP 
+
+<img src="./demo.gif" align="center"
+     alt="아키에이지 레시피 북 demo 화면" >
+
+## 트러블슈팅 경험
+
+## 회고/ 느낀점
+
+
 
