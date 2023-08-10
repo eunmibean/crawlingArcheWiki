@@ -12,9 +12,8 @@ database = config['DB']['DATABASE']
 config = {
   'user': user,
   'password': pwd,
-  'host': 'archedb',
-  'database': 'archewiki',
-  #'port' : 33064,
+  'host': host,
+  'database': database,
   'charset': 'utf8mb4', 
   'collation': 'utf8mb4_general_ci',
   'raise_on_warnings': True

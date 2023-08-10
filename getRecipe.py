@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from dbconnect_mysql_2 import dbConnect
+from dbconnect_mysql import dbConnect
 
 import json
 
