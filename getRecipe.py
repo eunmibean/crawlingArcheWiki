@@ -69,18 +69,12 @@ def getItems(link, code):
 def hasNumber(inputString):
     return any(char.isdigit() for char in inputString)
 
-# def checkItems(url, code):
-#     if dict.get(code) == None:
-#         dict[code] = getItems(url, code)
-
 def checkItem(url, name):
     code = db.getItemCode(name)
     if code == None:
         db.insertItemName(name)
         code = db.getItemCode(name)
         dict[code] = getItems(url, code[0])
-    #else : 
-     #   code = code[0]
     
     return code[0]
 
@@ -92,8 +86,6 @@ def checkItemCode(name):
 
     
 def getFinalRecipe(name, recipe = {}):
-   # if name not in dict.keys():
-    #    return None
 
     for key in dict[name].keys():
         if dict[key] == None: 
@@ -121,21 +113,3 @@ def getFinal(code, finalRecipe = {}):
     
     return finalRecipe
     
-
-            
- 
-
-#keyword = "%EB%81%88%EC%A0%81%EC%9E%84%20%EC%97%86%EB%8A%94%20%EC%97%B0%EB%A7%88%EC%A0%9C" #끈적임없는 연마제
-#keyword = "끈적임%20없는%20연마제"
-#keyword = "거친%20입자의%20연마제" 
-#keyword = "로즈마리"
-# keyword = "불투명한%20연마제"
-# url = f"https://archeage.xlgames.com/wikis/{keyword}"
-# db.createTable()
-
-# code = checkItem(url,keyword)
-
-# finalRecipe = {}
-# finalRecipe = getFinal(code)
-# print(finalRecipe)
-
