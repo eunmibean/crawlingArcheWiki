@@ -34,10 +34,10 @@ class dbConnect:
     
 
     def insertItemName(self, itemName):    
-        self.c.execute(f"INSERT INTO item_name_list (name) VALUES({itemName})")
+        self.c.execute("INSERT INTO item_name_list (name) VALUES(%s)", (itemName, ))
     
     def insertRecipe(self, code, key, count):
-        self.c.execute("INSERT INTO recipe_list VALUES(?, ?, ?)", (code,key,count, ))
+        self.c.execute("INSERT INTO recipe_list VALUES(%s, %s, %s)", (code,key,count, ))
             
     def getItemCode(self, itemName):
         sql = "SELECT code FROM item_name_list where name=%s"
@@ -45,7 +45,7 @@ class dbConnect:
         return self.c.fetchone()
 
     def getRecipe(self, code):
-        self.c.execute("SELECT ingredient, count FROM recipe_list where code=?", (code,))
+        self.c.execute("SELECT ingredient, count FROM recipe_list where code=%s", (code,))
         result = self.c.fetchall()
         return result
 
