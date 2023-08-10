@@ -1,10 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
-from dbconnect import dbConnect
+from dbconnect_mysql_2 import dbConnect
 
 import json
 
 db = dbConnect()
+# db.createTable()
 dict = {}
 
 
@@ -15,6 +16,7 @@ def giveFinalRecipe(keyword):
 
     finalRecipe = {}
     finalRecipe = getFinal(code, finalRecipe)
+    db.closeDB()
     return finalRecipe
 
 
