@@ -1,0 +1,25 @@
+version: '3'
+services:
+  archedb:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: archewiki
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  api:
+    build:
+      context: ./home/eunmi.repository/arche_wiki
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - archedb
+
+volumes:
+  arche-data:
