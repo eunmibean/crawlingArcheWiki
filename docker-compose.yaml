@@ -22,4 +22,4 @@ services:
       - archedb
 
 volumes:
-  arche-data:
+  mysql-data:

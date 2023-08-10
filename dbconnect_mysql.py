@@ -34,7 +34,7 @@ class dbConnect:
     
 
     def insertItemName(self, itemName):    
-        self.c.execute("INSERT INTO item_name_list (name) VALUES(?)", (itemName, ))
+        self.c.execute(f"INSERT INTO item_name_list (name) VALUES({itemName})")
     
     def insertRecipe(self, code, key, count):
         self.c.execute("INSERT INTO recipe_list VALUES(?, ?, ?)", (code,key,count, ))
