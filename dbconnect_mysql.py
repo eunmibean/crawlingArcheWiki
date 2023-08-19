@@ -33,28 +33,31 @@ class dbConnect:
         self.c = self.mydb.cursor()
     
 
-    def insertItemName(self, itemName):    
+    def insert_item_name(self, itemName):   
         self.c.execute("INSERT INTO item_name_list (name) VALUES(%s)", (itemName, ))
+        self.mydb.commit()
+
     
-    def insertRecipe(self, code, key, count):
+    def insert_recipe(self, code, key, count):
         self.c.execute("INSERT INTO recipe_list VALUES(%s, %s, %s)", (code,key,count, ))
+        self.mydb.commit()
             
-    def getItemCode(self, itemName):
+    def get_item_code(self, itemName):
         sql = "SELECT code FROM item_name_list where name=%s"
         self.c.execute(sql, (itemName, ))
         return self.c.fetchone()
 
-    def getRecipe(self, code):
+    def get_recipe(self, code):
         self.c.execute("SELECT ingredient, count FROM recipe_list where code=%s", (code,))
         result = self.c.fetchall()
         return result
 
-    def createTable(self):
+    def create_table(self):
         # 테이블 생성 
         self.c.execute("CREATE TABLE IF NOT EXISTS item_name_list \
             (name String , code INTEGER PRIMARY KEY autoincrement)")
         self.c.execute("CREATE TABLE IF NOT EXISTS recipe_list \
             (code integer, ingredient String, count integer)")
     
-    def closeDB(self):
+    def close_db(self):
         self.c.close()
