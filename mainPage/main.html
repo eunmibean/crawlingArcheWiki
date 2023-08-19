@@ -10,11 +10,15 @@
             <form action="" class="box" id="form">
                 <h1> What are you looking for?</h1>
                 <input type="text" id="keyword" name="keyword" placeholder="Type...">
-                <input type="submit" value="Search" id="submit" onclick="validateForm()">
+                <input type="submit" value="Search" id="submit">
             </form>
-       
+            
          <div id="result">
+
             <table id="result_table">
+                <div class="loading_box" style="display: none;">
+                    <div id="loading" ></div>
+                </div>
 
                 <tbody id="dynamicTbody">
                 </tbody>
@@ -23,65 +27,64 @@
 
         </div>  
 
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script>
-      
+       $(document).ready(function () {
+            // Handle the form submission
+            $('#form').submit(function (event) {
+                $("#dynamicTbody").empty();
+                event.preventDefault(); // Prevent the default form submission
+
+                var inputField = $('#keyword');
+                var keyword = inputField.val();
+
+                if (keyword === "") {
+                    alert("검색창에 입력해주세요.");
+                    return;
+                }
+
+                $('.loading_box').show();
 
 
-        function validateForm() {
-            var inputField = document.getElementById("keyword");
+                // Perform the AJAX request
+                $.ajax("http://127.0.0.1:5000/search/" + keyword, {
+                    type: "GET",
+                    secure: true,
+                    contentType: 'application/json;charset=UTF-8',
+                    cors: true,
+                    dataType: 'json',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                    },
+                    success: function (data) {
+                        // Process and display the API response
+                        console.log(data);
+                        
 
-            if (inputField.value === "") {
-                alert("검색창에 입력해주세요.");
-                return false;
-            }else {
+                        // $("#dynamicTbody").empty();
+                        $('.loading_box').hide();
+                        if (data == null) {
+                            $('#dynamicTbody').append('<h2>' + keyword + ' 의 레시피가 없습니다.</h2>');
+                        } else {
+                            keys = Object.keys(data);
 
+                            $('#result_table').append('<tr><th>ingredient</th><th>count</th></tr>');
 
-                $('#form').submit((event) => {
-
-                    event.preventDefault(); //폼 제출 방지
-
-                    keyword = $("input[name=keyword]").val();
-                    console.log(keyword)
-                    $.ajax("http://127.0.0.1:5000/search/"+keyword, {
-                        type: "GET",
-                        secure: true,
-                        contentType: 'application/json;charset=UTF-8',
-                        cors: true,
-                        dataType: 'json',
-                        headers: {
-                            'Access-Control-Allow-Origin': '*',
-                        },
-                        success: (data) => {
-                            console.log(data)
-                            $("#dynamicTbody").empty();
-                            if (data == null) {
-                                $('#dynamicTbody').append('<h2>'+keyword+' 의 레시피가 없습니다.</h2>');    
-                            } else {
-                                keys = Object.keys(data)
-                                
-                                $('#result_table').append('<tr><th>ingredient</th><th>count</th></tr>');
-                                
-                                for (var i=0; i<keys.length; i++){
-                                    var row = 
-                                        $('<tr><td>' + data[i][0]+ '</td><td>' + data[i][1] + '</td></tr>');
-                                    $('#dynamicTbody').append(row);
-                                    
-
-
-                                
-                                }
+                            for (var i = 0; i < keys.length; i++) {
+                                console.log(keys)
+                                var row = $('<tr><td>' + data[i][0] + '</td><td>' + data[i][1] + '</td></tr>');
+                                $('#dynamicTbody').append(row);
                             }
-                            
-                        },
-
-                        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                            console.log("Status: " + textStatus); alert("Error: " + errorThrown); 
-                        }   
-                    });
-                    });      
-            }
-        }
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("Status: " + textStatus);
+                        alert("Error: " + errorThrown);
+                    }
+                });
+            });
+        });
         </script>    
     </body>
 </html>

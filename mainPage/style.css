@@ -7,10 +7,6 @@ body {
 .container {
     border : 1px solid white; 
     height : 100vh; 
-    /* background-image: url(images/background.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center; */
     background: url(images/background.jpg) no-repeat center center;
     background-size: cover;
 
@@ -47,8 +43,6 @@ form.box input[type=text] {
     background-color: #fff;
     width: 340px; 
     padding: 10px;
-   /* border-top-left-radius: 25px ;
-    border-bottom-left-radius: 25px; */
     border-radius: 25px 0px 0px 25px;
     
 }
@@ -95,4 +89,36 @@ form.box input[type=text]::placeholder{
   text-align: left;
   background-color: #04AA6D;
   color: white;
+}
+
+
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.loading_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 100% viewport height to cover the whole page */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background overlay */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999; /* Place it above other elements */
+}
+
+/* Style the loading icon (you can replace this with your own icon) */
+#loading {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    animation: spin 1s linear infinite; /* Add a spinning animation */
+    border: 10px solid #f3f3f3; /* Light grey */
+    border-top: 10px solid #3498db; /* Blue */
+    border-radius: 50%;
 }
