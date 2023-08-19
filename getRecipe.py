@@ -25,7 +25,10 @@ def retrieve_recipe(keyword):
     code = db.get_item_code(keyword)
     if code is None : # db에 없으면
         recipe = search(url, recipe)
-        insert_new_recipe_to_db(keyword,recipe)        
+        if recipe is None or len(recipe) == 0 : # 없는 데이터이면 
+            return None
+        else : 
+            insert_new_recipe_to_db(keyword,recipe)        
     else : 
         recipe = db.get_recipe(code[0])
 

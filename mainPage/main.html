@@ -9,8 +9,8 @@
         <div class="container">
             <form action="" class="box" id="form">
                 <h1> What are you looking for?</h1>
-                <input type="text" name="keyword" placeholder="Type...">
-                <input type="submit" value="Search" id="submit">
+                <input type="text" id="keyword" name="keyword" placeholder="Type...">
+                <input type="submit" value="Search" id="submit" onclick="validateForm()">
             </form>
        
          <div id="result">
@@ -27,44 +27,61 @@
         <script>
       
 
-        $('#form').submit((event) => {
 
-            event.preventDefault(); //폼 제출 방지
+        function validateForm() {
+            var inputField = document.getElementById("keyword");
 
-            keyword = $("input[name=keyword]").val();
-            console.log(keyword)
-            $.ajax("http://127.0.0.1:5000/search/"+keyword, {
-                type: "GET",
-                secure: true,
-                contentType: 'application/json;charset=UTF-8',
-                cors: true,
-                dataType: 'json',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                },
-                success: (data) => {
-                    $("#dynamicTbody").empty();
-                    keys = Object.keys(data)
-                    
-                    $('#result_table').append('<tr><th>ingredient</th><th>count</th></tr>');
-                    
-                    for (var i=0; i<keys.length; i++){
-                        var row = 
-                            $('<tr><td>' + data[i][0]+ '</td><td>' + data[i][1] + '</td></tr>');
-                        $('#dynamicTbody').append(row);
-                        
+            if (inputField.value === "") {
+                alert("검색창에 입력해주세요.");
+                return false;
+            }else {
 
 
-                    
-                    }
-                    
-                },
+                $('#form').submit((event) => {
 
-                error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                    console.log("Status: " + textStatus); alert("Error: " + errorThrown); 
-                }   
-            });
-        });      
+                    event.preventDefault(); //폼 제출 방지
+
+                    keyword = $("input[name=keyword]").val();
+                    console.log(keyword)
+                    $.ajax("http://127.0.0.1:5000/search/"+keyword, {
+                        type: "GET",
+                        secure: true,
+                        contentType: 'application/json;charset=UTF-8',
+                        cors: true,
+                        dataType: 'json',
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                        },
+                        success: (data) => {
+                            console.log(data)
+                            $("#dynamicTbody").empty();
+                            if (data == null) {
+                                $('#dynamicTbody').append('<h2>'+keyword+' 가/이 없습니다.</h2>');    
+                            } else {
+                                keys = Object.keys(data)
+                                
+                                $('#result_table').append('<tr><th>ingredient</th><th>count</th></tr>');
+                                
+                                for (var i=0; i<keys.length; i++){
+                                    var row = 
+                                        $('<tr><td>' + data[i][0]+ '</td><td>' + data[i][1] + '</td></tr>');
+                                    $('#dynamicTbody').append(row);
+                                    
+
+
+                                
+                                }
+                            }
+                            
+                        },
+
+                        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                            console.log("Status: " + textStatus); alert("Error: " + errorThrown); 
+                        }   
+                    });
+                    });      
+            }
+        }
         </script>    
     </body>
 </html>
