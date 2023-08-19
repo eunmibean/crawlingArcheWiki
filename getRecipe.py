@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 
 import time
 
-db = dbConnect()
+
 # db.createTable()
 dict = {}
 recipe = {}
@@ -19,6 +19,7 @@ driver = webdriver.Chrome(executable_path=chrome_driver_path, options=chrome_opt
 
 
 def retrieve_recipe(keyword):
+    db = dbConnect()
     url = f"https://archeage.xlgames.com/wikis/{keyword}"
     recipe = {}
     # db에 데이터가 있는지 먼저 확인
@@ -28,14 +29,14 @@ def retrieve_recipe(keyword):
         if recipe is None or len(recipe) == 0 : # 없는 데이터이면 
             return None
         else : 
-            insert_new_recipe_to_db(keyword,recipe)        
+            insert_new_recipe_to_db(keyword,recipe, db)        
     else : 
         recipe = db.get_recipe(code[0])
 
-    
+    db.close_db()
     return recipe
 
-def insert_new_recipe_to_db(keyword="", recipe={}):
+def insert_new_recipe_to_db(keyword="", recipe={}, db=dbConnect()):
     db.insert_item_name(keyword) 
     code = db.get_item_code(keyword)
     for key, value in recipe.items():        
@@ -44,7 +45,7 @@ def insert_new_recipe_to_db(keyword="", recipe={}):
 ## Selenium
 def search(url, recipe={}):
     driver.get(url)
-    time.sleep(1)
+    time.sleep(0.5)
 
     prefix = "mat-inner"
     div_elements = len(driver.find_elements(By.XPATH,f"//div[starts-with(@class, '{prefix}')]"))
@@ -68,5 +69,5 @@ def search(url, recipe={}):
                 else :
                     recipe[food] = recipe[food] + int(cnt)
             driver.back()
-            time.sleep(1)
+            time.sleep(0.5)
     return recipe
