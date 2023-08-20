@@ -7,12 +7,15 @@ config.read('config.ini')
 user = config['DB']['USER'] 
 pwd = config['DB']['PASSWORD'] 
 host = config['DB']['HOST']
+port = config['DB']['PORT']
 database = config['DB']['DATABASE']  
+
 
 config = {
   'user': user,
   'password': pwd,
   'host': host,
+  'port' : port,
   'database': database,
   'charset': 'utf8mb4', 
   'collation': 'utf8mb4_general_ci',
