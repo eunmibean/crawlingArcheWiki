@@ -6,16 +6,19 @@ from selenium.webdriver.chrome.options import Options
 
 import time
 
+import configparser
 
-# db.createTable()
-dict = {}
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+driver_path = config['CHROME']['DRIVER_PATH']
+
 recipe = {}
 
-chrome_driver_path = "/opt/homebrew/bin/chromedriver"
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 
-driver = webdriver.Chrome(executable_path=chrome_driver_path, options=chrome_options)
+driver = webdriver.Chrome(executable_path=driver_path, options=chrome_options)
 
 
 def retrieve_recipe(keyword):
